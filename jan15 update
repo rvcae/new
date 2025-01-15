@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aaron Eaton | Minimal Portfolio</title>
+
+  <!-- Google Font: Silkscreen -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* GLOBAL RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* BODY & TYPOGRAPHY */
+    body {
+      background-color: #fff;
+      color: #000;
+      font-family: 'Silkscreen', cursive;
+      text-transform: uppercase; /* All text in uppercase */
+      overflow-x: hidden;
+    }
+
+    /* SMOOTH SCROLLING */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* NAVIGATION (FIXED, SMALLER HEIGHT) */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px; /* Reduced height */
+      padding: 0 1rem;
+      background-color: #fff;
+      z-index: 999;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    nav li a {
+      text-decoration: none;
+      color: #000;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      transition: opacity 0.3s ease;
+    }
+    nav li a:hover {
+      opacity: 0.6;
+    }
+
+    /* SPACER SO HERO ISN'T HIDDEN BY HEADER */
+    .spacer {
+      height: 40px; /* Matches header height */
+      width: 100%;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      height: 100vh; 
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .hero h2 {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 400;
+      letter-spacing: 0.2em;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; 
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("https://via.placeholder.com/1920x1080/fff/000?text=background") center center/cover no-repeat;
+      opacity: 0.05; /* Very subtle background image */
+      z-index: -1;  
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin: 3rem 0 2rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ABOUT SECTION */
+    .about {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .about p {
+      line-height: 1.5;
+      font-weight: 400;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* RECENT WORK SECTION - HIDDEN BY DEFAULT (PASSWORD-PROTECTED) */
+    .projects {
+      display: none; /* Hidden until the correct password is entered */
+      padding: 0 2rem 4rem 2rem;  
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* CASE STUDY STYLING */
+    .project-case-study {
+      max-width: 900px;
+      margin: 2rem auto;
+      text-transform: none; /* so smaller subtext can be more readable if desired */
+    }
+    .project-case-study h3,
+    .project-case-study h4 {
+      text-transform: uppercase; /* maintain uppercase for headings */
+    }
+    .case-study-img {
+      width: 100%;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+    }
+    .project-case-study ul {
+      margin: 1rem 0;
+      padding-left: 1.5rem; /* some left indent for bullet lists */
+    }
+    .project-case-study ol {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+    .project-case-study li {
+      margin-bottom: 0.5rem;
+    }
+    .project-case-study blockquote {
+      border-left: 4px solid #ccc;
+      margin: 1rem 0;
+      padding: 0.5rem 1rem;
+      font-style: italic;
+      text-transform: none;
+    }
+
+    /* HIRE SECTION (CONTACT FORM) */
+    .contact-cta {
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+    .contact-cta h2 {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .contact-cta p {
+      max-width: 600px;
+      line-height: 1.5;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-transform: none; /* optional if you want normal text for paragraphs */
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .contact-form label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      border: 1px solid #ccc;
+      padding: 0.8rem;
+      font-family: 'Silkscreen', cursive; 
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .contact-form button {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 1rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-transform: uppercase;
+    }
+    .contact-form button:hover {
+      background-color: #333;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.7rem;
+      background-color: #fff;
+      color: #999;
+    }
+
+    /* MEDIA QUERIES */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero h2 {
+        font-size: 0.8rem;
+      }
+      .section-title {
+        font-size: 1.2rem;
+      }
+      .contact-form {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FIXED NAVIGATION -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#about">about</a></li>
+        <!-- Instead of linking directly to #recent-work, we use JS to unlock it. -->
+        <li><a href="javascript:void(0)" onclick="unlockRecentWork()">recent work</a></li>
+        <li><a href="#hire">hire</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- SPACER -->
+  <div class="spacer" id="home"></div>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Aaron Eaton</h1>
+    <h2>minimalist. future. pixel vibe.</h2>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="about" id="about">
+    <h2 class="section-title">about</h2>
+    <p>
+      i’m aaron eaton, a front-end developer who thrives on pushing 
+      the boundaries of modern web experiences. i blend sleek, minimalist design 
+      with forward-thinking code to create seamless, engaging interfaces. whether 
+      i’m refining aesthetic details or implementing robust functionality, 
+      i focus on clean, user-centric solutions that stand out in a crowded digital space.
+      this website is intentionally minimal—please view my work.
+    </p>
+  </section>
+
+  <!-- RECENT WORK SECTION (PASSWORD PROTECTED) -->
+  <section class="projects" id="recent-work">
+    <h2 class="section-title">recent work</h2>
+
+    <!-- CASE STUDY #1: VELOMATE -->
+    <div class="project-case-study">
+      <!-- MAIN IMAGE (OPTIONAL) -->
+      <img 
+        src="https://via.placeholder.com/900x500/000/fff?text=velomate+campaign" 
+        alt="VeloMate product launch" 
+        class="case-study-img"
+      />
+
+      <!-- TITLE -->
+      <h3>product launch for velomate cycling app</h3>
+
+      <!-- OVERVIEW -->
+      <p>
+        velomate was looking to expand its audience reach and position itself 
+        as the go-to cycling app for recreational and professional cyclists. 
+        i worked closely with their design and marketing teams to create a 
+        high-impact communications strategy that launched the new features 
+        to the public.
+      </p>
+
+      <!-- MY ROLE -->
+      <p><strong>my role:</strong> director of communications</p>
+      <ul>
+        <li><strong>strategic planning:</strong> defined messaging framework and key objectives.</li>
+        <li><strong>stakeholder alignment:</strong> collaborated with product leads, marketing managers, and external designers.</li>
+        <li><strong>media outreach:</strong> managed relationships with influencers, bloggers, and media outlets.</li>
+        <li><strong>campaign execution:</strong> oversaw milestones, timelines, and inter-department communications.</li>
+      </ul>
+
+      <!-- KEY COLLABORATORS -->
+      <h4>key collaborators</h4>
+      <ul>
+        <li>design agency: visual identity & promotional materials</li>
+        <li>development team: in-app notifications & landing page elements</li>
+        <li>marketing specialists: paid ads & targeted email campaigns</li>
+      </ul>
+
+      <!-- QUOTE/HIGHLIGHT -->
+      <blockquote>
+        “this was truly a team effort. the design agency and development team 
+        delivered a polished, user-friendly experience, while the marketing specialists 
+        amplified our message to a broader audience.”
+      </blockquote>
+
+      <!-- PROJECT CHALLENGES & SOLUTIONS -->
+      <h4>project challenges & solutions</h4>
+      <ul>
+        <li>
+          <strong>challenge:</strong> limited budget for paid advertising.<br>
+          <strong>solution:</strong> devised a community-first approach—tapped into cycling clubs, local bike shops, and online forums.
+        </li>
+        <li>
+          <strong>challenge:</strong> aligning multiple content formats under a cohesive message.<br>
+          <strong>solution:</strong> created a comprehensive messaging toolkit (brand pillars, target personas, key talking points).
+        </li>
+        <li>
+          <strong>challenge:</strong> short launch timeline.<br>
+          <strong>solution:</strong> implemented a shared project management system with weekly sprints and daily check-ins.
+        </li>
+      </ul>
+
+      <!-- THE PROCESS -->
+      <h4>the process</h4>
+      <ol>
+        <li><strong>discovery & goal-setting:</strong> stakeholder interviews, competitor analysis, clarifying business objectives.</li>
+        <li><strong>creative direction & messaging:</strong> messaging framework emphasizing adventure, community, user-friendly features.</li>
+        <li><strong>campaign launch & rollout:</strong> social media teasers, email blasts, in-app notifications, plus a virtual webinar.</li>
+        <li><strong>measurement & optimization:</strong> tracked website visits, app downloads, social engagement, and press mentions.</li>
+      </ol>
+
+      <!-- RESULTS -->
+      <h4>results</h4>
+      <ul>
+        <li>35% increase in app downloads (exceeding 20% target)</li>
+        <li>2,000+ webinar attendees</li>
+        <li>10 industry mentions from cycling blogs & influencers</li>
+        <li>95% positive sentiment on social platforms</li>
+      </ul>
+
+      <!-- BEHIND THE SCENES -->
+      <details>
+        <summary>click to view additional resources:</summary>
+        <ul>
+          <li>creative brief & roadmap</li>
+          <li>team collaboration tools (slack channels, shared project board)</li>
+          <li>media kit (press releases, faq sheets, influencer outreach templates)</li>
+        </ul>
+      </details>
+
+      <!-- TAKEAWAYS -->
+      <h4>takeaways</h4>
+      <p>
+        my core responsibility was to unify the vision for this campaign 
+        and ensure every piece—design, development, and marketing—told a cohesive story. 
+        by focusing on targeted messaging, strategic community outreach, and 
+        cross-team collaboration, we successfully positioned velomate as the premier 
+        cycling companion app.
+      </p>
+    </div>
+    <!-- END CASE STUDY #1 -->
+
+    <!-- You can add more case studies here with the same structure if needed. -->
+
+  </section>
+
+  <!-- HIRE SECTION (CONTACT FORM) -->
+  <section class="contact-cta" id="hire">
+    <h2>hire</h2>
+    <p>
+      want to collaborate? let’s build something creative, unique,
+      and user-focused. fill out the form below to start the conversation.
+    </p>
+
+    <form class="contact-form" method="POST" action="#">
+      <label for="name">name*</label>
+      <input type="text" id="name" name="name" placeholder="enter your name" required />
+
+      <label for="email">email*</label>
+      <input type="email" id="email" name="email" placeholder="enter your email" required />
+
+      <label for="message">message*</label>
+      <textarea id="message" name="message" rows="5" placeholder="how can i help?" required></textarea>
+
+      <button type="submit">send message</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 aaron eaton. all rights reserved.</p>
+  </footer>
+
+  <!-- SIMPLE PASSWORD-PROTECT SCRIPT -->
+  <script>
+    function unlockRecentWork() {
+      const userPassword = prompt("enter password to view recent work:");
+
+      // Replace 'letmein' with your desired password
+      if (userPassword === "letmein") {
+        // Show the "recent work" section
+        document.getElementById("recent-work").style.display = "flex";
+
+        // Smoothly scroll to the "recent work" section
+        document.getElementById("recent-work").scrollIntoView({ behavior: 'smooth' });
+      } else if (userPassword !== null) {
+        // If user clicked "Cancel," do nothing
+        alert("incorrect password.");
+      }
+    }
+  </script>
+</body>
+</html>
