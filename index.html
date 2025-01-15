@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Silkscreen All Caps Portfolio (Password-Protected Recent Work)</title>
+
+  <!-- Google Font: Silkscreen -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* GLOBAL RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* BODY & TYPOGRAPHY */
+    body {
+      background-color: #fff;
+      color: #000;
+      font-family: 'Silkscreen', cursive;
+      text-transform: uppercase; /* All text in uppercase */
+      overflow-x: hidden;
+    }
+
+    /* SMOOTH SCROLLING */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* NAVIGATION (FIXED, SMALLER HEIGHT) */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px; /* Reduced height */
+      padding: 0 1rem;
+      background-color: #fff;
+      z-index: 999;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    nav li a {
+      text-decoration: none;
+      color: #000;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      transition: opacity 0.3s ease;
+    }
+    nav li a:hover {
+      opacity: 0.6;
+    }
+
+    /* SPACER SO HERO ISN'T HIDDEN BY HEADER */
+    .spacer {
+      height: 40px; /* Matches header height */
+      width: 100%;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      height: 100vh; 
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .hero h2 {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 400;
+      letter-spacing: 0.2em;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; 
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("https://via.placeholder.com/1920x1080/fff/000?text=background") center center/cover no-repeat;
+      opacity: 0.05; /* Very subtle background image */
+      z-index: -1;  
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin: 3rem 0 2rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ABOUT SECTION */
+    .about {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .about p {
+      line-height: 1.5;
+      font-weight: 400;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* RECENT WORK SECTION - HIDDEN BY DEFAULT */
+    .projects {
+      display: none; /* Hidden until the correct password is entered */
+      padding: 0 2rem 4rem 2rem;  
+      flex-direction: column;
+      align-items: center;
+    }
+    .project-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 1200px;
+      margin: 2rem auto;
+    }
+    .project {
+      position: relative;
+      border: 1px solid #ddd;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .project:hover {
+      transform: scale(1.02);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+    .project img {
+      width: 100%;
+      display: block;
+      vertical-align: bottom;
+    }
+    .project-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+      transition: background 0.3s ease;
+    }
+    .project-info h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.1em;
+    }
+    .project-info p {
+      font-size: 0.8rem;
+      font-weight: 400;
+    }
+    .project:hover .project-info {
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    /* HIRE SECTION (CONTACT FORM) */
+    .contact-cta {
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+    .contact-cta h2 {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.1em;
+    }
+    .contact-cta p {
+      max-width: 600px;
+      line-height: 1.5;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .contact-form label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      border: 1px solid #ccc;
+      padding: 0.8rem;
+      font-family: 'Silkscreen', cursive; 
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .contact-form button {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 1rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-transform: uppercase;
+    }
+    .contact-form button:hover {
+      background-color: #333;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.7rem;
+      background-color: #fff;
+      color: #999;
+      /* No border-top */
+    }
+
+    /* MEDIA QUERIES */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero h2 {
+        font-size: 0.8rem;
+      }
+      .section-title {
+        font-size: 1.2rem;
+      }
+      .contact-form {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FIXED NAVIGATION -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#about">about</a></li>
+        <!-- Instead of linking directly to #recent-work, we use JS to unlock it. -->
+        <li><a href="javascript:void(0)" onclick="unlockRecentWork()">recent work</a></li>
+        <li><a href="#hire">hire</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- SPACER -->
+  <div class="spacer" id="home"></div>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Aaron Eaton</h1>
+    <h2>minimalist. future. pixel vibe.</h2>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="about" id="about">
+    <h2 class="section-title">about</h2>
+    <p>
+      i’m a front-end developer & designer focusing on
+      minimalist, future-forward web experiences. i use silkscreen all caps 
+      for a retro pixel vibe, combining bold typography, clean layouts, and 
+      user-friendly interfaces for the modern era.
+    </p>
+  </section>
+
+  <!-- RECENT WORK SECTION (PASSWORD PROTECTED) -->
+  <section class="projects" id="recent-work">
+    <h2 class="section-title">recent work</h2>
+    <div class="project-list">
+      <!-- PROJECT 1 -->
+      <div class="project">
+        <img src="https://via.placeholder.com/400x400/000/fff?text=project+1" alt="project 1">
+        <div class="project-info">
+          <h3>project one</h3>
+          <p>a short description goes here.</p>
+        </div>
+      </div>
+      <!-- PROJECT 2 -->
+      <div class="project">
+        <img src="https://via.placeholder.com/400x400/000/fff?text=project+2" alt="project 2">
+        <div class="project-info">
+          <h3>project two</h3>
+          <p>a short description goes here.</p>
+        </div>
+      </div>
+      <!-- PROJECT 3 -->
+      <div class="project">
+        <img src="https://via.placeholder.com/400x400/000/fff?text=project+3" alt="project 3">
+        <div class="project-info">
+          <h3>project three</h3>
+          <p>a short description goes here.</p>
+        </div>
+      </div>
+      <!-- Add more as needed -->
+    </div>
+  </section>
+
+  <!-- HIRE SECTION (CONTACT FORM) -->
+  <section class="contact-cta" id="hire">
+    <h2>hire</h2>
+    <p>
+      want to collaborate? let’s build something creative, unique,
+      and user-focused. fill out the form below to start the conversation.
+    </p>
+
+    <form class="contact-form" method="POST" action="#">
+      <label for="name">name*</label>
+      <input type="text" id="name" name="name" placeholder="enter your name" required />
+
+      <label for="email">email*</label>
+      <input type="email" id="email" name="email" placeholder="enter your email" required />
+
+      <label for="message">message*</label>
+      <textarea id="message" name="message" rows="5" placeholder="how can i help?" required></textarea>
+
+      <button type="submit">send message</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 aaron eaton. all rights reserved.</p>
+  </footer>
+
+  <!-- SIMPLE PASSWORD-PROTECT SCRIPT -->
+  <script>
+    function unlockRecentWork() {
+      const userPassword = prompt("enter password to view recent work:");
+
+      // Replace 'letmein' with your desired password
+      if (userPassword === "letmein") {
+        // Show the "recent work" section
+        document.getElementById("recent-work").style.display = "flex";
+        
+        // Smoothly scroll to the "recent work" section
+        document.getElementById("recent-work").scrollIntoView({ behavior: 'smooth' });
+      } else if (userPassword !== null) {
+        // If user clicked "Cancel," do nothing
+        alert("incorrect password.");
+      }
+    }
+  </script>
+</body>
+</html>
